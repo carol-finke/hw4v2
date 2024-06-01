@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Tacostagram Final</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Travel Journal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/application.css">
+</head>
 
-    <link rel="stylesheet" href="/stylesheets/application.css">
-  </head>
-
-  <body>
-    <div>
-      <%= flash["notice"] %>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Travel Journal</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <% if logged_in? %>
+          <li class="nav-item">
+            <span class="nav-link">Welcome, <%= @current_user.username %>!</span>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Logout', logout_path, method: :delete, class: "nav-link" %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Login', login_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Signup', new_user_path, class: "nav-link" %>
+          </li>
+        <% end %>
+      </ul>
     </div>
-    <div>
-      <a href="/">Home</a>
-      <a href="/logout">Logout</a>
-      <a href="/login">Login</a>
-      <a href="/users/new">Signup</a>
-    </div>
+  </nav>
 
+  <div class="container mt-4">
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>"><%= value %></div>
+    <% end %>
     <%= yield %>
-  </body>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
 </html>

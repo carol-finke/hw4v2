@@ -1,20 +1,23 @@
 <h1>New Entry for <%= @place.name %></h1>
-<form action="<%= place_entries_path(@place) %>" method="post">
+
+<%= form_with(model: [@place, @entry], local: true) do |form| %>
   <div class="mb-3">
-    <label for="title_input" class="form-label">Title</label>
-    <input type="text" name="title" id="title_input" class="form-control">
+    <%= form.label :title, class: 'form-label' %>
+    <%= form.text_field :title, id: :entry_title, class: 'form-control' %>
   </div>
   <div class="mb-3">
-    <label for="description_input" class="form-label">Description</label>
-    <textarea name="description" id="description_input" class="form-control"></textarea>
+    <%= form.label :occurred_on, class: 'form-label' %>
+    <%= form.date_field :occurred_on, id: :entry_occurred_on, class: 'form-control' %>
   </div>
   <div class="mb-3">
-    <label for="occurred_on_input" class="form-label">Occurred On</label>
-    <input type="date" name="occurred_on" id="occurred_on_input" class="form-control">
+    <%= form.label :description, class: 'form-label' %>
+    <%= form.text_area :description, id: :entry_description, class: 'form-control' %>
   </div>
-  <div class="mb-3">
-    <label for="image_input" class="form-label">Image URL (optional)</label>
-    <input type="text" name="image" id="image_input" class="form-control">
+  <div class="actions">
+    <%= form.submit 'Create Entry', class: 'btn btn-primary' %>
   </div>
-  <button class="btn btn-primary">Create Entry</button>
-</form>
+<% end %>
+
+<p>
+  <%= link_to 'Back to Place', place_path(@place) %>
+</p>

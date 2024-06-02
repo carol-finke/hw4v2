@@ -1,22 +1,20 @@
-<h1>New Entry</h1>
-
-<form action="/entries" method="post">
-  <input type="hidden" name="place_id" value="<%= params["place_id"] %>">
-
-  <p>
-    <label for="title_input">Title</label>
-    <input type="text" name="title" id="title_input">
-  </p>
-
-  <p>
-    <label for="description_input">Description</label>
-    <input type="text" name="description" id="description_input">
-  </p>
-
-  <p>
-    <label for="occurred_on_input">Occurred On</label>
-    <input type="date" name="occurred_on" id="occurred_on_input">
-  </p>
-
-  <button>Save</button>
+<h1>New Entry for <%= @place.name %></h1>
+<form action="<%= place_entries_path(@place) %>" method="post">
+  <div class="mb-3">
+    <label for="title_input" class="form-label">Title</label>
+    <input type="text" name="title" id="title_input" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="description_input" class="form-label">Description</label>
+    <textarea name="description" id="description_input" class="form-control"></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="occurred_on_input" class="form-label">Occurred On</label>
+    <input type="date" name="occurred_on" id="occurred_on_input" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="image_input" class="form-label">Image URL (optional)</label>
+    <input type="text" name="image" id="image_input" class="form-control">
+  </div>
+  <button class="btn btn-primary">Create Entry</button>
 </form>

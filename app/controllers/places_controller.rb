@@ -1,25 +1,36 @@
 class PlacesController < ApplicationController
-  before_action :require_user, only: [:new, :create, :show]
+  before_action :authenticate_user
 
   def index
     @places = Place.all
   end
 
   def show
-    @place = Place.find_by(id: params[:id])
-    @entries = Entry.where(place_id: @place.id, user_id: @current_user.id)
+    @place = Place.find(params[:id])
+    @entries = @place.entries
   end
 
   def new
+    @place = Place.new
   end
 
   def create
-    @place = Place.new
-    @place.name = params[:name]
+    @place = Place.new(place_params)
     if @place.save
+      flash[:notice] = "Place created successfully."
       redirect_to places_path
     else
       render :new
     end
+  end
+
+  private
+
+  def place_params
+    params.require(:place).permit(:name, :description)
+  end
+
+  def authenticate_user
+    # Add authentication logic here if needed
   end
 end

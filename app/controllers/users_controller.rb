@@ -6,10 +6,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = "Thanks for signing up! Now login."
+      flash[:notice] = "Thanks for signing up. Now login."
       redirect_to login_path
     else
-      render 'new'
+      render :new
     end
   end
 

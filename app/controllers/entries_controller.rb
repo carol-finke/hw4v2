@@ -1,17 +1,17 @@
 class EntriesController < ApplicationController
-  before_action :require_user
+  before_action :require_login
+  before_action :set_place, only: [:new, :create]
 
   def new
-    @place = Place.find(params[:place_id])
     @entry = @place.entries.build
   end
 
   def create
-    @place = Place.find(params[:place_id])
     @entry = @place.entries.build(entry_params)
-    @entry.user_id = @current_user.id
+    @entry.user = current_user
     if @entry.save
-      redirect_to place_path(@place)
+      @entry.uploaded_image.attach(params[:entry][:uploaded_image])
+      redirect_to place_path(@place), notice: "Entry added!"
     else
       render :new
     end
@@ -20,6 +20,20 @@ class EntriesController < ApplicationController
   private
 
   def entry_params
-    params.require(:entry).permit(:title, :description, :occurred_on)
+    params.require(:entry).permit(:title, :description, :occurred_on, :uploaded_image)
+  end
+
+  def require_login
+    unless logged_in?
+      redirect_to login_path, alert: "Please log in to access this page."
+    end
+  end
+
+  def logged_in?
+    !!session[:user_id]
+  end
+
+  def set_place
+    @place = Place.find(params[:place_id])
   end
 end

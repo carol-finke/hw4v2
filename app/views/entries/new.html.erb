@@ -1,23 +1,23 @@
 <h1>New Entry for <%= @place.name %></h1>
 
-<%= form_with(model: [@place, @entry], local: true) do |form| %>
-  <div class="mb-3">
-    <%= form.label :title, class: 'form-label' %>
-    <%= form.text_field :title, id: :entry_title, class: 'form-control' %>
+<%= form_with(model: [@place, @entry], local: true, class: 'form') do |form| %>
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </div>
-  <div class="mb-3">
-    <%= form.label :occurred_on, class: 'form-label' %>
-    <%= form.date_field :occurred_on, id: :entry_occurred_on, class: 'form-control' %>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control' %>
   </div>
-  <div class="mb-3">
-    <%= form.label :description, class: 'form-label' %>
-    <%= form.text_area :description, id: :entry_description, class: 'form-control' %>
+  <div class="form-group">
+    <%= form.label :occurred_on %>
+    <%= form.date_select :occurred_on, class: 'form-control' %>
   </div>
-  <div class="actions">
-    <%= form.submit 'Create Entry', class: 'btn btn-primary' %>
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: 'form-control' %>
+  </div>
+  <div class="form-group mt-3">
+    <%= form.submit "Add Entry", class: 'btn btn-primary' %>
   </div>
 <% end %>
-
-<p>
-  <%= link_to 'Back to Place', place_path(@place) %>
-</p>

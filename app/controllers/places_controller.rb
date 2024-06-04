@@ -21,7 +21,7 @@ class PlacesController < ApplicationController
   def show
     @place = Place.find(params[:id])
     @entries = @place.entries.where(user: current_user)
-    @entry = @place.entries.build  # Initialize @entry for the form
+    @entry = @place.entries.build if logged_in?
   end
 
   private

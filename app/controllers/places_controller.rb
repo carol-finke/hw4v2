@@ -20,7 +20,7 @@ class PlacesController < ApplicationController
 
   def show
     @place = Place.find(params[:id])
-    @entries = @place.entries.where(user: current_user)
+    @entries = @place.entries.where(user: current_user) # Ensuring only current user's entries are shown
     @entry = @place.entries.build if logged_in?
   end
 

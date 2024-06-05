@@ -1,6 +1,10 @@
 class EntriesController < ApplicationController
   before_action :require_login
-  before_action :set_place, only: [:new, :create]
+  before_action :set_place, only: [:new, :create, :index]
+
+  def index
+    @entries = @place.entries.where(user_id: session["user_id"]) # Ensure only current user's entries are shown
+  end
 
   def new
     @entry = @place.entries.build
@@ -15,6 +19,14 @@ class EntriesController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    @entry = @place.entries.find_by(id: params[:id], user_id: session["user_id"]) # Ensure entry belongs to current user
+    if @entry
+      @entry.destroy
+    end
+    redirect_to place_path(@place)
   end
 
   private
